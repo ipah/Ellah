@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+
+
+
+	<head>
+		<title>Ellah Ipah</title>
+	</head>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="ellah_ipah2.css"> 
+
+
+
+	<body>
+		<div id='mid-sect'>
+			<div id = "tab-cont">
+				<div class = "tab">Home</div>
+				<div class = "tab">About Me</div>
+				<div class = "tab">Skills</div>
+				<div class = "tab">Contact</div>
+
+			</div>
+			<div id="center-box">
+				<div id ="opc-backgrnd"></div>
+				<div id="home">
+					<div id = "prof-pic">
+						<img src="img/HeadShot.jpg"> 
+					</div> <!-- #prof-pic -->
+
+					<div class = "clearfloat"></div>
+
+					<div id="abt-me">
+						<h1>Ellah Ipah</h1>
+						<h2>University of Southern California</h2>
+						<h2>B.A Applied and Computational Mathematics</h2>
+						<h3>Minor in Computer Science</h3>
+						<p>Email: ipah@usc.edu</p>
+
+					</div><!-- #abt-me -->
+
+
+				</div> <!-- #home -->
+
+				<div id = "about-me">
+	        
+			        <div id="abt-me-txt">
+			          <h2>About Me</h2>
+			          <p> I am a Senior at the University of Southern California studying Applied and Computational Mathematics with a minor in Computer Science. Am looking to pursue a career in Web Development, Front-End Mobile Development, and Data Analytics. I love to integrate creativity and innovation into my work and am always looking for ways to add color to my work. As an active member and Vice President of the National Society of Black Engineers at USC, I am passionate about promoting diversity within STEM fields. I am excited to begin my career and to continue advocating for the NSBE mission, </p>
+
+			          <p>"...to increase the number of culturally responsible black engineers to excel academically, succeed professionally, and positively impact our community."</p>
+
+			        </div>
+
+	        
+	       
+
+	      		</div>
+
+				<div id = "skills">
+					<img src="img/skills1.png" id="skills-icon">
+					<h2>Skills</h2>
+					<div class = "list-cont">
+						<div class="skills-list">
+							<ul>
+								<li>C++</li>
+								<li>Java</li>
+								<li>JavaScript</li>
+								<li>HTML/CSS</li>
+								<li>SQL</li>
+								<li>MatLab</li>
+								
+							</ul>
+						</div>
+						<div id="skls-sft-border"></div>
+						<div class="skills-list" id="skl-sb-lst">
+							<ul>
+								<li>Android-Studio</li>
+								<li>Tableau</li>
+							</ul>
+						</div>
+					</div>
+				</div> <!-- #skills --> 
+				<div id = "contact">
+			        <div id="contact-txt">
+			          <h2>Contact Me!</h2>
+			          <p>Please click on the icons below to view my Github, Linkedin, and E-Mail.</p>
+
+			        </div>
+			        
+						<div id = "icon">
+							<div class="icn-cont">
+								<a href="https://www.linkedin.com/in/ellah-ipah-353b4810a">
+									<img src="img/linkedin-icon.png" class="contact-icons">
+								</a>
+								<p>Linkedin</p>
+							</div><!--linkedIn-->
+							<div class ="icn-cont">
+								<a href="https://www.linkedin.com/in/ellah-ipah-353b4810a">
+									<img src="img/github-icon.ico" class="contact-icons">
+								</a>
+								<p>Github</p>
+							</div><!--git-->
+							<div class="icn-cont">
+								<a href="mailto:ipah@usc.edu">
+									<img src="img/open-email.png" class="contact-icons">
+								</a>
+								<p>Email</p>
+							</div> <!--email-->
+						</div><!-- #icon -->
+					</div> <!-- #contact -->
+			
+			</div> <!-- #center-box-->
+		</div> <!-- #mid-sect -->
+		<div class= "clearfloat"></div>
+		<div id="mbl-menu-bar">
+			<div class = "tab">Home</div>
+				
+			<div class = "tab">About Me</div>
+
+			<div class = "tab">Skills</div>
+
+			<div class = "tab">Contact</div>
+
+		</div>
+	</body>
+		
+	<script type="text/javascript">
+
+
+
+
+
+		var tabs = document.querySelectorAll(".tab");
+		for(var i =0; i < tabs.length; i++){
+			tabs[i].onclick = function(){
+				//console.log("plese");
+			var tabType = this.innerHTML; 
+			
+			if(tabType == 'Home'){ //go to home page
+				document.querySelector("#home").style.display = 'block';
+				document.querySelector("#about-me").style.display  = 'none';
+				document.querySelector("#skills").style.display  = 'none';
+				document.querySelector("#contact").style.display  = 'none';
+
+				console.log("home");
+			}
+
+			if(tabType == 'About Me'){
+
+				document.querySelector("#home").style.display  = 'none';
+				document.querySelector("#about-me").style.display  = 'block';
+				document.querySelector("#skills").style.display  = 'none';
+				document.querySelector("#contact").style.display  = 'none';
+				console.log("abt");
+			}
+
+			 if(tabType == 'Skills'){
+				document.querySelector("#home").style.display  = 'none';
+				document.querySelector("#about-me").style.display  = 'none';
+				document.querySelector("#skills").style.display  = 'block';
+				document.querySelector("#contact").style.display  = 'none';
+			}
+
+			if(tabType == 'Contact'){
+				document.querySelector("#home").style.display  = 'none';
+				document.querySelector("#about-me").style.display  = 'none';
+				document.querySelector("#skills").style.display  = 'none';
+				document.querySelector("#contact").style.display  = 'block';
+			}
+
+		}
+		}
+		
+
+
+	</script>
+
+
+
+</html>
