@@ -134,17 +134,17 @@
 			if(bttnType == "Upcoming"){
 				//create new url
 				//call ajax function on new url and display the results
-				console.log(this.innerHTML);
-				for(var i =1; i <= 52; i++){
+				// console.log(this.innerHTML);
+				// for(var i =1; i <= 52; i++){
 
-					url = "http://api.themoviedb.org/3/movie/upcoming?api_key=946971cf39ae77dcae526a6206add691&language=en-US&page="+i;
-					ajax(url, getUpcomingMovies);
-					console.log("len: " + newestLen);
-				}
+				// 	url = "http://api.themoviedb.org/3/movie/upcoming?api_key=946971cf39ae77dcae526a6206add691&language=en-US&page="+i;
+				// 	ajax(url, getUpcomingMovies);
+				// 	console.log("len: " + newestLen);
+				// }
 
 				
 				
-				displayResultsUpcoming(newest);
+				// displayResultsUpcoming(newest);
 
 				var changePg = document.querySelectorAll('.currPg');
 		 		for(var j = 0; j< changePg.length; j++){

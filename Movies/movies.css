@@ -231,6 +231,11 @@
 				height: 500px;
 				
 			}
+
+			.movie:hover{
+				cursor: pointer;
+			}
+
 			#movie-section > .movie{
 				margin: 10px;
 				float: left;
@@ -344,7 +349,7 @@
 				height: 80%;
 				width: 35%;
 				
-				margin-left: 10px;
+				margin-left: 20px;
 				position: relative;
 				top: 50px;
 			}
@@ -393,6 +398,7 @@
 			}
 			#exit-icon:hover{
 			  box-shadow: 1px 1px 10px white;
+			  cursor: pointer;
 			  
 			}
 
