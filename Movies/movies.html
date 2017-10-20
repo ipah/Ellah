@@ -1,0 +1,546 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<link rel="stylesheet" type="text/css" href="movies.css">
+</head>
+<body>
+	<h1>Movie Search</h1>
+	<div id= "menu-bar">
+		<div id = "movies-shown-cont">
+			<div class = "movies-shown-opt">Upcoming</div>
+			<div class = "movies-shown-opt">Top Rated</div>
+			<div class = "movies-shown-opt">Now Playing</div>
+
+		</div>
+	</div>
+	<div class="row">
+		<form action="" method="" id="search-form"> <!--action = "" goes to current page -->
+			<div id="holder" class="form-row">
+				<div id="input-box">
+							<label for="search-id" class="sr-only">Search:</label>
+							<input type="text" name="" class="form-control" id="search-id" placeholder="Search...">
+							<button type = "submit" id="submit-btn">Submit</button>
+
+							<div class="next">
+								<p class="currPg">Current page: 1</p>
+								<div class="next-prev-cont">
+									<img class= "prev-btn" src="img/prev_icon.png">
+									<p> Previous Page </p>
+								</div>
+
+								<div class="next-prev-cont">
+									<img class="next-btn" src="img/next_icon.png">
+									<p> Next Page </p>
+								</div>
+							</div>
+							
+				</div>
+				<div id="btn-container">
+					
+
+				</div>
+				
+
+			</div> <!--.form-row -->
+
+		</form>
+
+		
+
+	</div><!-- .row -->
+
+	
+
+
+	<div class="row">
+		Showing <span id="num-results" class="font-weight-bold">1</span> result(s) of <span id="total-results" class="font-weight-bold"></span>.
+
+	</div> <!-- .row -->
+	<div class="clearfloat"></div>
+	<!--put all current movies -->
+
+	<div id = "movie-section">
+		
+
+	</div> <!-- movie section -->
+	
+	<div id="indiv-movie-cont">
+		<div id="indiv-movie-div">
+			<img id = 'exit-icon' src = 'img/exit_icon.png'>
+			<img src="" id = 'indiv-movie-img'>
+			<div id="indiv-movie-desc-cont">
+			 	<div id = 'title-release'></div>
+				<div id = 'indiv-movie-desc'></div>
+		   	</div>
+
+		</div>
+	</div> <!--#indiv-movie-cont -->
+	
+	<div class="clearfloat"></div>
+
+	<div class="next">
+		<p class="currPg">Current page: 1</p>
+		<div class="next-prev-cont">
+
+			<img class= "prev-btn" src="img/prev_icon.png">
+			<p> Previous Page </p>
+		</div>
+
+		<div class="next-prev-cont">
+			<img class="next-btn" src="img/next_icon.png">
+			<p> Next Page </p>
+		</div>
+	</div>
+
+
+	<script type="text/javascript">
+	var newestLen = 0;
+	//var fullMovieDes = "";
+	var movieTitle = '';
+	var movieRelease = '';
+	var movieRating = '';
+	//MENU BUTTONS
+	var menuBttns = document.querySelectorAll(".movies-shown-opt");
+	var currPage = 1;
+	var todaysDate = new Date();
+	var dd = todaysDate.getDate();
+	var mm = todaysDate.getMonth() + 1; //bc javascript month starts at 0
+	console.log("mm: " + mm);
+	var yyyy= todaysDate.getFullYear();
+	if(dd < 10){
+		dd = '0' +dd;
+	}
+	if(mm < 10){
+		mm= '0' + mm;
+	}
+	todaysDate = yyyy+'-'+mm+'-'+dd;
+
+	var newest = [];
+	var nowPlayingAPI = "https://api.themoviedb.org/3/movie/now_playing?api_key=946971cf39ae77dcae526a6206add691&language=en-US&page=" + currPage;
+	console.log(nowPlayingAPI);
+	var apiNoPg = "https://api.themoviedb.org/3/movie/now_playing?api_key=946971cf39ae77dcae526a6206add691&language=en-US&page=all"
+
+	ajax(nowPlayingAPI, displayResults);
+	//console.log("TEST 1");
+
+	for(var i = 0; i < menuBttns.length; i++){
+		menuBttns[i].onclick = function(){
+			var bttnType = this.innerHTML;
+
+			if(bttnType == "Upcoming"){
+				//create new url
+				//call ajax function on new url and display the results
+				console.log(this.innerHTML);
+				for(var i =1; i <= 52; i++){
+
+					url = "http://api.themoviedb.org/3/movie/upcoming?api_key=946971cf39ae77dcae526a6206add691&language=en-US&page="+i;
+					ajax(url, getUpcomingMovies);
+					console.log("len: " + newestLen);
+				}
+
+				
+				
+				displayResultsUpcoming(newest);
+
+				var changePg = document.querySelectorAll('.currPg');
+		 		for(var j = 0; j< changePg.length; j++){
+		 			changePg[j].innerHTML = "Current Page: 1" ;
+		 		}
+
+			}
+			if(bttnType == "Top Rated"){
+				
+			}
+			if(bttnType == "Now Playing"){
+				ajax(nowPlayingAPI, displayResults);
+				var changePg = document.querySelectorAll('.currPg');
+		 		for(var j = 0; j< changePg.length; j++){
+		 			changePg[j].innerHTML = "Current Page: 1";
+		 		}
+
+				
+			}
+		}
+	}
+
+
+	
+	//console.log(movieOnClick);
+	// 
+	 //console.log(movieOnClick.length);
+
+
+	document.querySelector('#search-form').onsubmit = function(){
+			var search = document.querySelector("#search-id").value;
+			//console.log("press");
+			var url = "https://api.themoviedb.org/3/search/movie?api_key=946971cf39ae77dcae526a6206add691&language=en-US&query="+search+"&page=1&include_adult=false";
+			console.log("search: " + search);
+			ajax(url, displayResults);
+
+			return false; //return false stops form from submitting
+		};
+
+
+	
+
+	function displayResults(results){
+		//console.log("TEST 3");
+		//console.log(results);
+		document.querySelector('#num-results').innerHTML = results.results.length; //and total number
+		document.querySelector('#total-results').innerHTML = results.total_results;
+				if(results.results.length != 0){
+			//console.log("num of movies: " + results.results.length);
+
+			//console.log("OK");
+
+			var currMovies = document.querySelector('#movie-section');
+			while(currMovies.hasChildNodes()){ //DELETES MOVIES CURRENTLY DISPLAYED ON SCREEN
+					
+					currMovies.removeChild(currMovies.lastChild);
+			}
+
+			for( var i = 0; i < results.results.length; i++){
+				var row = document.createElement("div");
+				row.className = "row";
+
+
+				var movieDiv =document.createElement("div"); //ADD ALL TO THIS
+				movieDiv.className = "movie";
+				
+
+				var imgDiv = document.createElement("div"); //ADD IMG AND DESC TO THIS
+				imgDiv.className = "img-disp";
+				
+
+				var movieInfoDiv = document.createElement("div");
+				movieInfoDiv.className = "rating-desc";
+
+				var img = document.createElement("img");
+				img.className = "movie-imgs";
+				
+				var desc = document.createElement("p");
+				desc.className = "desc";
+				
+				var title = document.createElement("p");
+				title.className = "more-info";
+
+				var releaseDate = document.createElement("p");
+				releaseDate.className = "more-info";
+
+				var rating = document.createElement("p");
+				rating.className = "rating";
+
+				var starImg = document.createElement("img");
+				starImg.className = "star-pic";
+				starImg.src = "img/star.png";
+				starImg.alt = "star";
+
+				rating.innerHTML = results.results[i].vote_average;
+				movieRating = rating.innerHTML;
+				//console.log(rating.innerHTML);
+				title.innerHTML = ' "' + results.results[i].title+ '"';
+				movieTitle = results.results[i].title;
+				img.src = "http://image.tmdb.org/t/p/w185"+results.results[i].poster_path;
+				img.alt = results.results[i].title;
+				desc.innerHTML = results.results[i].overview;
+				releaseDate.innerHTML = results.results[i].release_date;
+				movieRelease = releaseDate.innerHTML;
+
+
+				imgDiv.appendChild(img);
+				var fullDesc = document.createElement("p");
+				fullDesc.className = "fullDesc";
+				fullDesc.innerHTML = desc.innerHTML;
+				 
+				
+				movieInfoDiv.appendChild(rating);
+				movieInfoDiv.appendChild(starImg);
+				
+				if (desc.innerHTML.length > 200) {
+					desc.innerHTML = desc.innerHTML.substr(0, 199) + '...';
+				}
+				movieInfoDiv.appendChild(desc);
+				movieInfoDiv.appendChild(fullDesc);
+
+				imgDiv.appendChild(movieInfoDiv);
+				
+
+				movieDiv.appendChild(imgDiv);
+				movieDiv.appendChild(title);
+				movieDiv.appendChild(releaseDate);
+
+				
+				document.querySelector('#movie-section').appendChild(movieDiv);
+				
+
+						
+			}
+			//console.log(results);
+		}
+		else{
+			//console.log("NOPE");
+		}
+		
+		var movieOnClick = document.querySelectorAll('.movie');
+	  console.log(movieOnClick.length);
+	  
+	  for(var i =0; i < movieOnClick.length; i++){
+	    
+	 	  movieOnClick[i].onclick = function(){
+	 	    var moviePanel = document.querySelector('#indiv-movie-cont');
+	 	    moviePanel.style.display = 'block';
+	 	    
+	 	    document.querySelector('#indiv-movie-img').src = this.children[0].children[0].src ; //
+
+	 	    var title = document.createElement('p');
+	 	    title.innerHTML = this.children[1].innerHTML;
+	 	    var rel = document.createElement('p');
+	 	    rel.innerHTML = this.children[2].innerHTML;
+	 	    var rat  = document.createElement('p');
+	 	    rat.innerHTML = 'Rating: ' + this.children[0].children[1].children[0].innerHTML;
+
+	 	    
+	 	  	document.querySelector('#indiv-movie-desc').innerHTML= this.children[0].children[1].children[3].innerHTML;//this.querySelector('.desc').innerHTML;
+	 	  	document.querySelector('#title-release').appendChild(title);
+	 	  	document.querySelector('#title-release').appendChild(rel);
+	 	  	document.querySelector('#title-release').appendChild(rat);
+	 	  	
+	 	  }
+	  }
+	}
+
+	//movieDiv ->
+
+	function displayResultsUpcoming(results){
+		console.log(results);
+		document.querySelector('#num-results').innerHTML = results.length; //and total number
+		document.querySelector('#total-results').innerHTML = results.total_results;
+		console.log("numResults: " + results.length);
+		
+		console.log(todaysDate);
+		/*if(mm = 11){
+			mm = 2;
+		}
+		else{ 
+			mm = mm+2;
+		}
+
+		yyyy++;
+		var maxDate = yyyy+'-'+mm+'-'+dd;
+
+		results.dates.maximum = maxDate;*/
+		console.log("new: " + newestLen);
+		if(newestLen != 0 ){
+			//console.log("num of movies: " + results.results.length);
+
+			console.log("OK");
+			console.log(results.results);
+
+			var currMovies = document.querySelector('#movie-section');
+			while(currMovies.hasChildNodes()){ //DELETES MOVIES CURRENTLY DISPLAYED ON SCREEN
+					currMovies.removeChild(currMovies.lastChild);
+					console.log("deleting");
+			}
+
+			for( var i = 0; i < newestLen; i++){
+				//if(results.results[i].release_date > todaysDate){
+					var row = document.createElement("div");
+					row.className = "row";
+
+
+					var movieDiv =document.createElement("div"); //ADD ALL TO THIS
+					movieDiv.className = "movie";
+					
+
+					var imgDiv = document.createElement("div"); //ADD IMG AND DESC TO THIS
+					imgDiv.className = "img-disp";
+					
+
+					var movieInfoDiv = document.createElement("div");
+					movieInfoDiv.className = "rating-desc";
+
+					var img = document.createElement("img");
+					img.className = "movie-imgs";
+					
+					var desc = document.createElement("p");
+					desc.className = "desc";
+					
+					var title = document.createElement("p");
+					title.className = "more-info";
+
+					var releaseDate = document.createElement("p");
+					releaseDate.className = "more-info";
+
+					var rating = document.createElement("p");
+					rating.className = "rating";
+
+					var starImg = document.createElement("img");
+					starImg.className = "star-pic";
+					starImg.src = "img/star.png";
+					starImg.alt = "star";
+
+					rating.innerHTML = results.results[i].vote_average;
+					//console.log(rating.innerHTML);
+					title.innerHTML = ' "' + results.results[i].title+ '"';
+					img.src = "http://image.tmdb.org/t/p/w185"+results.results[i].poster_path;
+					img.alt = results.results[i].title;
+					desc.innerHTML = results.results[i].overview;
+					releaseDate.innerHTML = results.results[i].release_date;
+
+
+
+					imgDiv.appendChild(img);
+
+					movieInfoDiv.appendChild(rating);
+					movieInfoDiv.appendChild(starImg);
+					if (desc.innerHTML.length > 200) {
+						desc.innerHTML = desc.innerHTML.substr(0, 199) + '...';
+					}
+					movieInfoDiv.appendChild(desc);
+
+					imgDiv.appendChild(movieInfoDiv);
+					
+
+					movieDiv.appendChild(imgDiv);
+					movieDiv.appendChild(title);
+					movieDiv.appendChild(releaseDate);
+
+					
+					document.querySelector('#movie-section').appendChild(movieDiv);
+				//}
+				
+			}
+		}
+
+		else{
+			console.log("nothing");
+		}
+				
+	}
+
+
+
+
+	function ajax(endpointUrl, returnFunction){
+		var xhr = new XMLHttpRequest();
+			// .open( Method, Endpoint, Async (T/F) )
+			xhr.open('GET', endpointUrl, true);
+			xhr.onreadystatechange = function(){
+				if (xhr.readyState == XMLHttpRequest.DONE) {
+					// Request is completed
+					if (xhr.status == 200) {
+						// Request was successful
+						// JSON.parse() – converts string to JSON.
+						//console.log(xhr.responseText);
+
+						returnFunction( JSON.parse(xhr.responseText) );
+					} else {
+						// Error
+						alert('AJAX Error.');
+						//console.log(xhr.status);
+					}
+				}
+			}
+		xhr.send();
+	}
+
+	var prev_btns = document.querySelectorAll('.prev-btn');
+	for(var i = 0; i < prev_btns.length; i++){
+		prev_btns[i].onclick = function(){
+			if(currPage > 1){
+		 		currPage--;
+		 		var url = "https://api.themoviedb.org/3/movie/now_playing?api_key=946971cf39ae77dcae526a6206add691&language=en-US&page=" + currPage;
+
+		 		ajax(url, displayResults);
+	 		
+	 		}
+
+	 		var changePg = document.querySelectorAll('.currPg');
+	 		for(var j = 0; j< changePg.length; j++){
+	 			changePg[j].innerHTML = "Current Page: " + currPage;
+	 		}
+
+		}
+	}
+
+
+	
+		
+	var next_btns = document.querySelectorAll('.next-btn');
+		
+	
+	for(var i=0; i < next_btns.length; i++){
+		next_btns[i].onclick = function(){
+	 	if(currPage < 53){
+	 		currPage++;
+	 		var url = "https://api.themoviedb.org/3/movie/now_playing?api_key=946971cf39ae77dcae526a6206add691&language=en-US&page=" + currPage;
+
+	 		ajax(url, displayResults);
+	 	}
+
+	 	var changePg = document.querySelectorAll('.currPg');
+	 	for(var j = 0; j< changePg.length; j++){
+	 		changePg[j].innerHTML = "Current Page: " + currPage;
+	 	}
+
+	 	
+
+	 	
+	 }
+	}
+
+	
+	var page = 1;
+	function getUpcomingMovies(results){
+		newestLen = newestLen + results.results.length;
+		if(results.results.length != 0){
+			for(var i = 0; i < results.results.length; i++){
+				if(results.results[i].release_date >= todaysDate){
+					newest[i] = results.results[i];
+				}
+			}
+		}
+
+		console.log("newLen: " + newestLen);
+
+
+	}
+	
+	var exit = document.querySelector('#exit-icon');
+	
+	exit.onclick = function(){
+		var movie =  document.querySelector('#indiv-movie-cont');
+	 	movie.style.display = 'none';
+
+	 	var moviedesc = document.querySelector('#indiv-movie-desc');
+	 	var movietitle= document.querySelector('#title-release')
+	  	while(moviedesc.hasChildNodes()){ //DELETES CURRENT MOVIE DESC
+					
+					moviedesc.removeChild(moviedesc.lastChild);
+		
+		}
+
+		while(movietitle.hasChildNodes()){ //DELETES CURRENT MOVIE DESC
+					
+					movietitle.removeChild(movietitle.lastChild);
+		
+		}
+	}
+
+	
+</script>
+
+</body>
+
+
+
+
+
+
+
+
+</html>
