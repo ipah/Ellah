@@ -226,6 +226,8 @@ body{
 
 
 
+
+
 @media (min-width: 768px){
 
 	body{
@@ -449,6 +451,13 @@ body{
 
 	#mbl-menu-bar{
 		display: none;
+	}
+
+	#projects{
+		position: absolute;
+		display: none;
+		height: 700px;
+		width: 500px;
 	}
 
 }
@@ -687,6 +696,8 @@ body{
 		text-align: center;
 		float: left;
 	}
+
+	
 
 }
 

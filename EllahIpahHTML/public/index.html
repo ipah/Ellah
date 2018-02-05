@@ -19,6 +19,7 @@
 				<div class = "tab">About Me</div>
 				<div class = "tab">Skills</div>
 				<div class = "tab">Contact</div>
+				<div class="tab">Projects</div>
 
 			</div>
 			<div id="center-box">
@@ -109,8 +110,19 @@
 								<p>Email</p>
 							</div> <!--email-->
 						</div><!-- #icon -->
-					</div> <!-- #contact -->
-			
+				</div> <!-- #contact -->
+				
+
+				<div id = "projects">
+					<ul>
+						<li> <a href="index.html">This Website</a> </li>
+						<li> <a href="mock_bookstore/web.html">Mock USC BookstoreWebsite</a></li>
+
+
+					</ul>
+
+
+				</div> <!-- #projects -->
 			</div> <!-- #center-box-->
 		</div> <!-- #mid-sect -->
 		<div class= "clearfloat"></div>
@@ -143,6 +155,7 @@
 				document.querySelector("#about-me").style.display  = 'none';
 				document.querySelector("#skills").style.display  = 'none';
 				document.querySelector("#contact").style.display  = 'none';
+				document.querySelector("#projects").style.display = 'none';
 
 				
 			}
@@ -153,6 +166,7 @@
 				document.querySelector("#about-me").style.display  = 'block';
 				document.querySelector("#skills").style.display  = 'none';
 				document.querySelector("#contact").style.display  = 'none';
+				document.querySelector("#projects").style.display = 'none';
 				
 			}
 
@@ -161,13 +175,23 @@
 				document.querySelector("#about-me").style.display  = 'none';
 				document.querySelector("#skills").style.display  = 'block';
 				document.querySelector("#contact").style.display  = 'none';
+				document.querySelector("#projects").style.display = 'none';
 			}
 
 			if(tabType == 'Contact'){
 				document.querySelector("#home").style.display  = 'none';
 				document.querySelector("#about-me").style.display  = 'none';
 				document.querySelector("#skills").style.display  = 'none';
+				document.querySelector("#projects").style.display = 'none';
 				document.querySelector("#contact").style.display  = 'block';
+			}
+
+			if(tabType == 'Projects'){
+				document.querySelector("#home").style.display  = 'none';
+				document.querySelector("#about-me").style.display  = 'none';
+				document.querySelector("#skills").style.display  = 'none';
+				document.querySelector("#contact").style.display  = 'none';
+				document.querySelector("#projects").style.display = 'block';
 			}
 
 		}
