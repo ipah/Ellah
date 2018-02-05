@@ -25,7 +25,7 @@
 
 .tab{
 	float: left;
-	width: 24.6%;
+	width: 19.6%;
 	text-align: center;
 	border-right: 1px solid white;
 	text-shadow: 1px 1px 4px grey;
@@ -42,13 +42,13 @@ body{
 	position: relative;
 		
 	width: 300px;
-    height: 70%;
+    height: 75%;
     margin: auto;
    
 }
 #center-box{
 	width: 300px;
-    height: 500px;		
+    height: 550px;		
 	float: right;
 	box-shadow: 1px 1px 5px grey;
 	position: relative;
@@ -222,6 +222,22 @@ body{
 		width: 0px;
 		border: 1px solid rgb(252, 250, 246);
 		float: left;
+	}
+
+	#projects{
+		display: none;
+		position: absolute;
+		text-align: center;
+
+		height: 100%;
+		width: 300px;
+	}
+
+	#projects ul{
+		list-style: none;
+		margin: auto;
+		padding: 0px;
+
 	}
 
 
@@ -458,6 +474,22 @@ body{
 		display: none;
 		height: 700px;
 		width: 500px;
+		text-align: center;	
+		font-size: 25px;
+		
+	}
+
+	#projects ul{
+		list-style: none;
+		margin: auto;
+		padding: 0px;
+
+	}
+
+	#projects img{
+		height: 200px;
+		width: 200px;
+		margin: auto;
 	}
 
 }
